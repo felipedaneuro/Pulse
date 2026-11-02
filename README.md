@@ -6,6 +6,10 @@ Uma skill para transformar o histórico **público e acessível** de um perfil e
 
 [**Explore a demonstração e copie o prompt de instalação**](https://pulse-julio-andrade.vercel.app/)
 
+## Instalação completa e privacidade
+
+Para publicar com a sua conta, siga o **[Manual de implementação](docs/MANUAL_IMPLEMENTACAO.md)**: Supabase, Vercel, app da Meta, design system, artes em SVG e banco de pautas. Este repositório é genérico: os dados da sua instalação ficam em `src/config.local.mjs` e em pastas ignoradas pelo git, e `scripts/check-public.mjs` barra qualquer dado pessoal antes do commit. As mudanças estão em [`CHANGELOG.md`](CHANGELOG.md).
+
 ## Comece aqui
 
 1. [Baixe a skill Pulse 2.0.0](https://github.com/juliooandradee/pulse-skill/releases/download/v2.0.0/pulse-v2.0.0.zip), ou use a [pasta `pulse/` na revisão fixa](https://github.com/juliooandradee/pulse-skill/tree/v2.0.0/pulse).
