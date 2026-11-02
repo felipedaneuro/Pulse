@@ -1,0 +1,6 @@
+node_modules
+.env*
+.vercel
+brand/capas
+# O manual de identidade é lido do Storage privado, não deste endereço público.
+brand/identidade/manual.html

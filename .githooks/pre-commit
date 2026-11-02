@@ -1,0 +1,4 @@
+#!/bin/sh
+# Bloqueia o commit com dado pessoal/segredo nos arquivos versionados ou com o manifesto do pacote desatualizado.
+root="$(git rev-parse --show-toplevel)"
+node "$root/scripts/check-public.mjs" && node "$root/scripts/update-manifest.mjs" --check

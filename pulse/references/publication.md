@@ -11,7 +11,7 @@ O modo local salva textos no navegador e imagens no IndexedDB. Ele não publica 
 ## Publicação online
 
 1. Configure o backend privado da própria pessoa conforme `private-access.md`.
-2. Revise e aplique as migrações em `assets/backend/migrations/` em ordem. Substitua `YOUR_PROJECT` nos agendadores e `your-app.example` nas funções pelo projeto e domínio autorizados. Crie as contas editoriais no próprio workspace; nenhum cadastro do criador acompanha o pacote.
+2. Revise e aplique as migrações em `assets/backend/migrations/` em ordem. Substitua `YOUR_PROJECT` pelo *project ref* nos arquivos de cron e de login unificado e defina o segredo `PULSE_APP_ORIGIN` (domínio autorizado) nas funções; o passo a passo está em `docs/MANUAL_IMPLEMENTACAO.md`. Crie as contas editoriais no próprio workspace; nenhum cadastro do criador acompanha o pacote.
 3. Publique `pulse-meta-connect`, `pulse-publisher` e `pulse-editorial` com os arquivos `_shared`. Os handlers validam sua própria autenticação; não retire essa validação. Configure app, segredo, configuração do login e retorno da Meta no servidor.
 4. Conecte a conta profissional pela tela oficial da Meta. Nunca solicite senha social ao agente. A autorização de publicação e as permissões para Insights podem ser diferentes; confira as permissões disponíveis e indique dados ausentes.
 5. Revise a prévia e use Testar sem publicar. Só agende após autorização do dono para o conteúdo, conta e horário. Alterar a copy cancela o agendamento; uma publicação confirmada permanece travada.

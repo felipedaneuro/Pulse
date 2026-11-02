@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
+    "build:generic": "node build.mjs --generic",
+    "check:public": "node ../../../scripts/check-public.mjs",
     "test": "node --test --test-concurrency=3 src/*.test.mjs"
   },
   "dependencies": {

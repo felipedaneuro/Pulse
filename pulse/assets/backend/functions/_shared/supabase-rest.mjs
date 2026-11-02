@@ -1,5 +1,7 @@
 // Supabase REST from Edge Functions with the service role. A user's JWT only identifies the caller.
-export const APP_ORIGINS=new Set(['https://your-app.example']);
+// A origem permitida vem do segredo PULSE_APP_ORIGIN (ex.: https://seu-app.vercel.app), sem editar código.
+const ENV=globalThis.Deno?.env,APP_ORIGIN=(typeof ENV?.get==='function'?ENV.get('PULSE_APP_ORIGIN'):'')||'https://your-app.example';
+export const APP_ORIGINS=new Set([APP_ORIGIN.replace(/\/$/,'')]);
 export const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 export function replies(req){

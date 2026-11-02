@@ -12,3 +12,14 @@ __pycache__/
 *.pyc
 
 /pulse/assets/app/node_modules
+
+# Dados e configuração pessoais: nunca no repositório público (veja docs/MANUAL_IMPLEMENTACAO.md)
+/pulse/assets/app/src/config.local.mjs
+/pulse/assets/app/brand/identidade/
+/pulse/assets/app/brand/templates/
+/pulse/assets/app/brand/capas/
+pulse-dataset-*.json
+.mcp.json
+.claude/
+.agents/
+skills-lock.json
