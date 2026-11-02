@@ -152,6 +152,7 @@ No app: **Publicação** deve listar a conta, sem o aviso "Não foi possível ca
      ```bash
      cd pulse/assets/app && npx vercel link && npx vercel deploy --prod
      ```
+     A Vercel refaz o build no servidor com o seu `config.local.mjs`; não é preciso gerar o bundle pessoal na sua máquina. Se gerar com `npm run build` para testar, volte ao genérico com `npm run build:generic` antes de commitar (o gancho recusa o contrário).
 3. `.vercelignore` já exclui `brand/capas` e o manual de identidade (lido do Storage privado, não de endereço público).
 4. Confira: abra o app, entre com o dono e a aba **Publicação** deve carregar a conta.
 
@@ -267,7 +268,7 @@ O repositório é a fonte única: a sua instalação é o mesmo código com a su
 5. `npm run build:generic`, `node scripts/check-public.mjs` e `node scripts/update-manifest.mjs` (atualiza `pulse/MANIFEST.sha256`; o gancho recusa o commit se estiver velho), depois commit no padrão `feat:`/`fix:`/`docs:`/`refactor:`/`chore:`/`test:`/`style:`.
 6. `git push`. O deploy da **sua** instalação é um passo à parte (`npm run build` com a sua configuração, ou push se usar Git na Vercel).
 
-**Receber melhorias de outros:** `git remote add upstream <repositório original>` e `git merge upstream/main`. A sua configuração fica de fora, então não há conflito.
+**Receber melhorias do projeto original** ([juliooandradee/pulse-skill](https://github.com/juliooandradee/pulse-skill), de onde esta versão é fork): `git remote add upstream https://github.com/juliooandradee/pulse-skill.git`, `git fetch upstream` e `git merge upstream/<branch-padrão>`. A sua configuração fica de fora, então não há conflito de dados; só revise conflitos de código.
 
 ---
 

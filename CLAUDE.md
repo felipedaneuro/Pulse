@@ -16,6 +16,6 @@ Repositório **público e replicável**. Leia `docs/MANUAL_IMPLEMENTACAO.md` ant
 5. Commit no padrão `feat:`/`fix:`/`docs:`/`refactor:`/`chore:`/`test:`/`style:`, com diff revisável.
 
 ## Operação
-- Deploy só quando o dono pedir explicitamente (gera custo). Build de deploy da instalação: `npm run build` (usa a configuração pessoal); build de commit: `npm run build:generic`.
+- Deploy só quando o dono pedir explicitamente (gera custo). Deploy pela CLI (`npx vercel deploy --prod`, a partir de `pulse/assets/app`): a Vercel refaz o build lá com o `config.local.mjs` enviado, então **não** gere o bundle pessoal localmente. Se gerar (`npm run build`, só para testar), rode `npm run build:generic` antes de qualquer commit: o gancho recusa o bundle com dados pessoais.
 - Responder em português do Brasil. Estilo do código: nomes descritivos em inglês, funções curtas, sem `console.log`, sem TODO solto.
 - Conteúdo de saúde: nada é publicado sem a assinatura do profissional; não contornar os bloqueios do editor (`requiredText`, sobreposição, área de imagem vazia).
