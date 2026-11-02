@@ -1,4 +1,4 @@
-import {assetBatch,assetPath} from './publication-schedule.mjs';
+import {assetBatch,assetPath,svgPath} from './publication-schedule.mjs';
 const columns='id,account_id,content,origin,status,planned_at,revision,created_at,updated_at';
 const jobColumns='id,post_id,revision,scheduled_at,state,phase,attempts,permalink,published_at,last_error,updated_at';
 async function invoke(client,name,body,fallback){
@@ -17,6 +17,18 @@ export function createPublicationRepository(client,workspaceId){
   async uploadSlides(post,blobs){
    const batch=assetBatch(),paths=blobs.map((_,i)=>assetPath(workspaceId,post.id,batch,i));
    for(const [i,blob] of blobs.entries()){const {error}=await client.storage.from('pulse-private').upload(paths[i],blob,{contentType:'image/jpeg',upsert:false});if(error)throw Error(`Não foi possível enviar a imagem do slide ${i+1}.`);}
+   return paths;
+  },
+  async downloadSvg(path){const {data,error}=await client.storage.from('pulse-private').download(path);if(error)throw Error('Não foi possível abrir a arte em SVG.');return data.text();},
+  // Editable art of each slide, one new file per save so earlier versions stay readable.
+  async uploadSvgs(post,items){
+   const batch=assetBatch(),paths=[];
+   for(const item of items){
+    const path=svgPath(workspaceId,post.id,batch,item.index);
+    const {error}=await client.storage.from('pulse-private').upload(path,new Blob([item.text],{type:'image/svg+xml'}),{contentType:'image/svg+xml',upsert:false});
+    if(error)throw Error(`Não foi possível guardar a arte do slide ${item.index+1}.`);
+    paths.push(path);
+   }
    return paths;
   },
   async previewUrl(path){const {data,error}=await client.storage.from('pulse-private').createSignedUrl(path,3600);if(error||!data?.signedUrl)throw Error('Não foi possível carregar a imagem importada.');return data.signedUrl;},

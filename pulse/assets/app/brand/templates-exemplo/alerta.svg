@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350" id="template-alerta" data-name="template-alerta">
+<title>template-alerta</title>
+
+<rect id="fundo" data-name="fundo" x="0.0" y="0.0" width="1080.0" height="1350.0" fill="#3B4259" />
+<path id="motivo-diagonal" data-name="motivo-diagonal" fill="#BF8E63" d="M1885.3,-60.0 L1909.3,-60.0 L962.0,1410.0 L938.0,1410.0 Z" opacity="0.45" />
+<rect id="regua-topo" data-name="regua-topo" x="88.0" y="102.0" width="72.0" height="6.0" fill="#BF8E63" />
+<text id="titulo" data-name="titulo" font-family="Poppins" font-weight="600" font-size="54" fill="#FFFFFF" text-anchor="start" data-fundo="#3B4259" xml:space="preserve"><tspan x="88.0" y="178.0">Título do slide</tspan></text>
+<path id="item-1-marcador" data-name="item-1-marcador" fill="#BF8E63" d="M112,327 L136,365 L88,365 Z" />
+<text id="item-1-texto" data-name="item-1-texto" font-family="Inter" font-weight="400" font-size="38" fill="#F2F2F2" text-anchor="start" data-fundo="#3B4259" xml:space="preserve"><tspan x="170.0" y="361.4">Item 1 do conteúdo</tspan></text>
+<path id="item-2-marcador" data-name="item-2-marcador" fill="#BF8E63" d="M112,462 L136,500 L88,500 Z" />
+<text id="item-2-texto" data-name="item-2-texto" font-family="Inter" font-weight="400" font-size="38" fill="#F2F2F2" text-anchor="start" data-fundo="#3B4259" xml:space="preserve"><tspan x="170.0" y="496.0">Item 2 do conteúdo</tspan></text>
+<path id="item-3-marcador" data-name="item-3-marcador" fill="#BF8E63" d="M112,550 L136,588 L88,588 Z" />
+<text id="item-3-texto" data-name="item-3-texto" font-family="Inter" font-weight="400" font-size="38" fill="#F2F2F2" text-anchor="start" data-fundo="#3B4259" xml:space="preserve"><tspan x="170.0" y="584.0">Item 3 do conteúdo</tspan></text>
+<path id="item-4-marcador" data-name="item-4-marcador" fill="#BF8E63" d="M112,685 L136,723 L88,723 Z" />
+<text id="item-4-texto" data-name="item-4-texto" font-family="Inter" font-weight="400" font-size="38" fill="#F2F2F2" text-anchor="start" data-fundo="#3B4259" xml:space="preserve"><tspan x="170.0" y="718.6">Item 4 do conteúdo</tspan></text>
+<rect id="badge-acao" data-name="badge-acao" x="88.0" y="816.6" width="488.5" height="92.0" fill="#BF8E63" rx="46" />
+<text id="badge-texto" data-name="badge-texto" font-family="Poppins" font-weight="600" font-size="36" fill="#3B4259" text-anchor="start" data-fundo="#BF8E63" xml:space="preserve"><tspan x="132.0" y="875.6">Me chame no direct</tspan></text>
+<g id="rodape" data-name="rodape"><text id="rodape-arroba" data-name="rodape-arroba" font-family="Inter" font-weight="500" font-size="26" fill="#FFFFFF" text-anchor="start" xml:space="preserve"><tspan x="88.0" y="1228.0">@seu.perfil</tspan></text><text id="rodape-crm" data-name="rodape-crm" font-family="Inter" font-weight="400" font-size="24" fill="#FFFFFF" text-anchor="start" opacity="0.85" xml:space="preserve"><tspan x="88.0" y="1262.0">REGISTRO PROFISSIONAL · NÚMERO</tspan></text></g>
+</svg>

@@ -29,6 +29,8 @@ export function captionCheck(caption=''){
 
 export const assetBatch=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 export const assetPath=(workspaceId,postId,batch,index)=>`${workspaceId}/publication/${postId}/${batch}/slide-${String(index+1).padStart(2,'0')}.jpg`;
+// Editable SVG of a slide: it stays under the workspace in its own folder and never reaches Instagram.
+export const svgPath=(workspaceId,postId,batch,index)=>`${workspaceId}/svg/${postId}/${batch}/slide-${String(index+1).padStart(2,'0')}.svg`;
 
 export function jobDetail(job,format){
  if(!job)return '';

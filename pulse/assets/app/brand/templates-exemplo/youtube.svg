@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" id="template-youtube" data-name="template-youtube">
+<title>template-youtube</title>
+
+<rect id="fundo" data-name="fundo" x="0.0" y="0.0" width="1280.0" height="720.0" fill="#F2F2F2" />
+<g id="PLACEHOLDER-IMAGEM" data-name="PLACEHOLDER-IMAGEM"><rect x="640" y="0" width="640" height="720" fill="#F2F2F2" stroke="#A6A6A6" stroke-width="3" stroke-dasharray="18 14" /><text font-family="Inter" font-weight="500" font-size="28" fill="#A6A6A6" text-anchor="middle" x="960" y="350">FOTO / ANGIOGRAFIA</text></g>
+<rect id="painel-azul" data-name="painel-azul" x="0.0" y="0.0" width="700.0" height="720.0" fill="#3B4259" />
+<path id="diagonal-marca" data-name="diagonal-marca" fill="#BF8E63" d="M1139.7,-20.0 L1159.7,-20.0 L670.0,740.0 L650.0,740.0 Z" />
+<text id="kicker" data-name="kicker" font-family="Poppins" font-weight="500" font-size="32" fill="#BF8E63" text-anchor="start" letter-spacing="0.140em" data-fundo="#3B4259" xml:space="preserve"><tspan x="72.0" y="132.0">SUA ESPECIALIDADE</tspan></text>
+<rect id="regua-kicker" data-name="regua-kicker" x="72.0" y="158.0" width="72.0" height="5.0" fill="#BF8E63" />
+<text id="titulo" data-name="titulo" font-family="Poppins" font-weight="700" font-size="66" fill="#FFFFFF" text-anchor="start" data-fundo="#3B4259" xml:space="preserve"><tspan x="72.0" y="266.1">Título do slide</tspan></text>
+</svg>

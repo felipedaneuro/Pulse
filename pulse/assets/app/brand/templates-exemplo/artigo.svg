@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350" id="template-artigo" data-name="template-artigo">
+<title>template-artigo</title>
+
+<rect id="fundo" data-name="fundo" x="0.0" y="0.0" width="1080.0" height="1350.0" fill="#FFFFFF" />
+<rect id="card-referencia" data-name="card-referencia" x="88.0" y="444.7" width="904.0" height="270.8" fill="#F2F2F2" rx="20" />
+<rect id="card-borda" data-name="card-borda" x="88.0" y="444.7" width="8.0" height="270.8" fill="#BF8E63" />
+<rect id="faixa-topo" data-name="faixa-topo" x="0.0" y="0.0" width="1080.0" height="178.0" fill="#3B4259" />
+<path id="diagonal-topo" data-name="diagonal-topo" fill="#BF8E63" d="M1113.5,-20.0 L1135.5,-20.0 L995.0,198.0 L973.0,198.0 Z" />
+<text id="kicker-serie" data-name="kicker-serie" font-family="Poppins" font-weight="500" font-size="32" fill="#BF8E63" text-anchor="start" letter-spacing="0.140em" data-fundo="#3B4259" xml:space="preserve"><tspan x="88.0" y="104.0">SÉRIE DA SEMANA</tspan></text>
+<text id="titulo-artigo" data-name="titulo-artigo" font-family="Poppins" font-weight="600" font-size="52" fill="#3B4259" text-anchor="start" xml:space="preserve"><tspan x="88.0" y="288.0">Título do artigo da semana</tspan></text>
+<text id="revista" data-name="revista" font-family="Poppins" font-weight="600" font-size="30" fill="#3B4259" text-anchor="start" letter-spacing="0.060em" xml:space="preserve"><tspan x="128.0" y="498.7">Nome da revista</tspan></text>
+<text id="referencia" data-name="referencia" font-family="Inter" font-weight="400" font-size="28" fill="#5C6273" text-anchor="start" xml:space="preserve"><tspan x="128.0" y="544.7">Autor et al. Revista 2026</tspan></text>
+<text id="rotulo-achado" data-name="rotulo-achado" font-family="Poppins" font-weight="600" font-size="28" fill="#3B4259" text-anchor="start" letter-spacing="0.100em" xml:space="preserve"><tspan x="88.0" y="761.5">ACHADO</tspan></text>
+<rect id="regua-achado" data-name="regua-achado" x="88.0" y="777.5" width="48.0" height="5.0" fill="#BF8E63" />
+<text id="texto-achado" data-name="texto-achado" font-family="Inter" font-weight="400" font-size="24" fill="#5C6273" text-anchor="start" xml:space="preserve"><tspan x="88.0" y="829.5">O que o estudo mostrou.</tspan></text>
+<text id="rotulo-implicacao" data-name="rotulo-implicacao" font-family="Poppins" font-weight="600" font-size="28" fill="#3B4259" text-anchor="start" letter-spacing="0.100em" xml:space="preserve"><tspan x="88.0" y="937.7">IMPLICAÇÃO</tspan></text>
+<rect id="regua-implicacao" data-name="regua-implicacao" x="88.0" y="953.7" width="48.0" height="5.0" fill="#BF8E63" />
+<text id="texto-implicacao" data-name="texto-implicacao" font-family="Inter" font-weight="400" font-size="24" fill="#5C6273" text-anchor="start" xml:space="preserve"><tspan x="88.0" y="1005.7">O que isso muda na prática.</tspan></text>
+<g id="rodape" data-name="rodape"><text id="rodape-arroba" data-name="rodape-arroba" font-family="Inter" font-weight="500" font-size="26" fill="#5C6273" text-anchor="start" xml:space="preserve"><tspan x="88.0" y="1228.0">@seu.perfil</tspan></text><text id="rodape-crm" data-name="rodape-crm" font-family="Inter" font-weight="400" font-size="24" fill="#5C6273" text-anchor="start" opacity="0.85" xml:space="preserve"><tspan x="88.0" y="1262.0">REGISTRO PROFISSIONAL · NÚMERO</tspan></text></g>
+</svg>

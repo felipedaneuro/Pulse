@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350" id="template-conteudo" data-name="template-conteudo">
+<title>template-conteudo</title>
+
+<rect id="fundo" data-name="fundo" x="0.0" y="0.0" width="1080.0" height="1350.0" fill="#F2F2F2" />
+<rect id="regua-topo" data-name="regua-topo" x="88.0" y="102.0" width="72.0" height="6.0" fill="#BF8E63" />
+<text id="numero-slide" data-name="numero-slide" font-family="Poppins" font-weight="600" font-size="54" fill="#5C6273" text-anchor="end" opacity="0.45" xml:space="preserve"><tspan x="992.0" y="140.0">02</tspan></text>
+<text id="titulo" data-name="titulo" font-family="Poppins" font-weight="600" font-size="58" fill="#3B4259" text-anchor="start" xml:space="preserve"><tspan x="88.0" y="178.0">Título do slide</tspan></text>
+<text id="corpo" data-name="corpo" font-family="Inter" font-weight="400" font-size="38" fill="#5C6273" text-anchor="start" xml:space="preserve"><tspan x="88.0" y="342.9">Texto do slide com a explicação principal, em poucas linhas.</tspan></text>
+<rect id="card-destaque" data-name="card-destaque" x="88.0" y="674.4" width="904.0" height="158.4" fill="#FFFFFF" rx="20" />
+<rect id="card-borda" data-name="card-borda" x="88.0" y="674.4" width="8.0" height="158.4" fill="#BF8E63" />
+<text id="texto-destaque" data-name="texto-destaque" font-family="Inter" font-weight="500" font-size="32" fill="#3B4259" text-anchor="start" data-fundo="#FFFFFF" xml:space="preserve"><tspan x="132.0" y="736.4">Frase de destaque do slide.</tspan></text>
+<g id="rodape" data-name="rodape"><text id="rodape-arroba" data-name="rodape-arroba" font-family="Inter" font-weight="500" font-size="26" fill="#5C6273" text-anchor="start" xml:space="preserve"><tspan x="88.0" y="1262.0">@seu.perfil</tspan></text></g>
+</svg>

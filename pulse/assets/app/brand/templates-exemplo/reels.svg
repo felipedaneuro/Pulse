@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="1080" height="1920" id="template-reels" data-name="template-reels">
+<title>template-reels</title>
+
+<rect id="fundo" data-name="fundo" x="0.0" y="0.0" width="1080.0" height="1920.0" fill="#3B4259" />
+<g id="PLACEHOLDER-IMAGEM" data-name="PLACEHOLDER-IMAGEM"><rect x="0" y="0" width="1080" height="1920" fill="#5C6273" stroke="#A6A6A6" stroke-width="3" stroke-dasharray="18 14" /><text font-family="Inter" font-weight="500" font-size="28" fill="#A6A6A6" text-anchor="middle" x="540" y="350">FOTO / ANGIOGRAFIA (cobrir tudo)</text></g>
+<rect id="veu-inferior" data-name="veu-inferior" x="0.0" y="934.2" width="1080.0" height="985.8" fill="#3B4259" opacity="0.86" />
+<path id="diagonal-marca" data-name="diagonal-marca" fill="#BF8E63" d="M1400.6,934.2 L1422.6,934.2 L971.0,1635.0 L949.0,1635.0 Z" />
+<text id="kicker" data-name="kicker" font-family="Poppins" font-weight="500" font-size="32" fill="#BF8E63" text-anchor="start" letter-spacing="0.140em" data-fundo="#3B4259" xml:space="preserve"><tspan x="88.0" y="1030.2">SUA ESPECIALIDADE</tspan></text>
+<text id="titulo" data-name="titulo" font-family="Poppins" font-weight="600" font-size="76" fill="#FFFFFF" text-anchor="start" data-fundo="#3B4259" xml:space="preserve"><tspan x="88.0" y="1144.6">Título do slide</tspan></text>
+<g id="guias-NAO-EXPORTAR" data-name="guias-NAO-EXPORTAR"><rect x="0" y="285.0" width="1080" height="1350" fill="none" stroke="#FF2D55" stroke-width="4" stroke-dasharray="20 14" /><text x="24" y="267.0" font-family="Inter" font-size="26" fill="#FF2D55">recorte exibido na grade do perfil (4:5)</text><rect x="0" y="1500" width="1080" height="420" fill="#FF2D55" opacity="0.12" /><text x="24" y="1890" font-family="Inter" font-size="26" fill="#FF2D55">a UI do Instagram cobre esta faixa — sem texto aqui</text></g>
+</svg>

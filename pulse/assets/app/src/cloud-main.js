@@ -24,8 +24,8 @@ async function loadWorkspace(){
  try{
   const {data:auth,error:authError}=await client.auth.getUser();if(version!==epoch)return;if(authError||!auth.user)throw new Error('Entre com sua conta para abrir o painel.');
   const {data:work,error:workError}=await client.from('pulse_workspaces').select('id,handle,title,owner_id').eq('id',config.workspaceId).single();if(version!==epoch)return;if(workError||!work)throw new Error('Seu e-mail ainda não tem acesso ao Pulse. Peça ao administrador para liberá-lo na aba Admin.');
-  const {data:snapshot,error}=await client.from('pulse_datasets').select('payload').eq('workspace_id',work.id).eq('dataset_key','dashboard').single();if(version!==epoch)return;if(error||!snapshot)throw new Error('A base está sendo atualizada. Tente novamente em instantes.');
-  instance?.destroy();workspace=work;loadedRevision=snapshot.payload.updated_at;instance=mountDashboard(snapshot.payload,work,{getFileUrl,admin:work.owner_id===auth.user.id,teamRequest:body=>teamRequest(work.id,body),ideaProgress:progressFor(work.id),publication:work.owner_id===auth.user.id?root=>mountCloudPublication(root,{repository:createPublicationRepository(client,work.id)}):undefined});$('login-message').textContent='';$('login').hidden=true;$('workspace').hidden=false;
+  const {data:snapshot,error}=await client.from('pulse_datasets').select('payload,updated_at').eq('workspace_id',work.id).eq('dataset_key','dashboard').single();if(version!==epoch)return;if(error||!snapshot)throw new Error('A base está sendo atualizada. Tente novamente em instantes.');
+  instance?.destroy();workspace=work;loadedRevision=snapshot.updated_at;instance=mountDashboard(snapshot.payload,work,{getFileUrl,admin:work.owner_id===auth.user.id,teamRequest:body=>teamRequest(work.id,body),ideaProgress:progressFor(work.id),publication:work.owner_id===auth.user.id?root=>mountCloudPublication(root,{repository:createPublicationRepository(client,work.id)}):undefined});$('login-message').textContent='';$('login').hidden=true;$('workspace').hidden=false;
  }catch(error){if(version!==epoch)return;clearWorkspace();$('login-message').textContent=error.message||'Não foi possível abrir o painel. Tente novamente.';}
  finally{if(version===epoch)loading=false;$('refresh-data').disabled=false;}
 }
@@ -41,7 +41,8 @@ $('toggle-motion').onclick=e=>{const paused=document.body.classList.toggle('moti
 client.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT')clearWorkspace();else if(event==='SIGNED_IN'&&!workspace)queueMicrotask(loadWorkspace);});
 client.auth.getSession().then(({data:s})=>{if(s.session)loadWorkspace();});
 async function checkForUpdates(){
- if(!workspace||loading||document.hidden||$('post-dialog').open||Date.now()-lastBackgroundCheck<60000)return;
+ // A reload remounts the dashboard and would discard what is open in the publication editor.
+ if(!workspace||loading||document.hidden||$('post-dialog').open||instance?.hasUnsavedChanges?.()||Date.now()-lastBackgroundCheck<60000)return;
  lastBackgroundCheck=Date.now();const version=epoch;
  try{const {data,error}=await client.from('pulse_datasets').select('updated_at').eq('workspace_id',workspace.id).eq('dataset_key','dashboard').single();
   if(version===epoch&&!data&&(error?.code==='PGRST116'||!error)){clearWorkspace();$('login-message').textContent='Seu acesso mudou. Entre novamente ou fale com o administrador.';return;}

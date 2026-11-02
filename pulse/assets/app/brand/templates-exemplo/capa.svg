@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350" id="template-capa" data-name="template-capa">
+<title>template-capa</title>
+
+<rect id="fundo" data-name="fundo" x="0.0" y="0.0" width="1080.0" height="1350.0" fill="#3B4259" />
+<g id="motivo-diagonal" data-name="motivo-diagonal"><path id="diagonal-1" data-name="diagonal-1" fill="#BF8E63" d="M1864.3,-60.0 L1890.3,-60.0 L943.0,1410.0 L917.0,1410.0 Z" opacity="0.9" /><path id="diagonal-2" data-name="diagonal-2" fill="#BF8E63" d="M2054.3,-60.0 L2080.3,-60.0 L1133.0,1410.0 L1107.0,1410.0 Z" opacity="0.35" /></g>
+<text id="kicker" data-name="kicker" font-family="Poppins" font-weight="500" font-size="32" fill="#BF8E63" text-anchor="start" letter-spacing="0.140em" data-fundo="#3B4259" xml:space="preserve"><tspan x="88.0" y="128.0">SUA ESPECIALIDADE</tspan></text>
+<rect id="regua-kicker" data-name="regua-kicker" x="88.0" y="175.6" width="96.0" height="6.0" fill="#BF8E63" />
+<text id="hook" data-name="hook" font-family="Poppins" font-weight="600" font-size="82" fill="#FFFFFF" text-anchor="start" xml:space="preserve"><tspan x="88.0" y="558.6">Título de abertura do carrossel</tspan></text>
+<text id="apoio" data-name="apoio" font-family="Inter" font-weight="400" font-size="34" fill="#F2F2F2" text-anchor="start" opacity="0.85" xml:space="preserve"><tspan x="88.0" y="949.9">Uma linha de apoio com a promessa do conteúdo.</tspan></text>
+<g id="rodape" data-name="rodape"><text id="rodape-arroba" data-name="rodape-arroba" font-family="Inter" font-weight="500" font-size="26" fill="#FFFFFF" text-anchor="start" xml:space="preserve"><tspan x="88.0" y="1228.0">@seu.perfil</tspan></text><text id="rodape-crm" data-name="rodape-crm" font-family="Inter" font-weight="400" font-size="24" fill="#FFFFFF" text-anchor="start" opacity="0.85" xml:space="preserve"><tspan x="88.0" y="1262.0">REGISTRO PROFISSIONAL · NÚMERO</tspan></text></g>
+</svg>

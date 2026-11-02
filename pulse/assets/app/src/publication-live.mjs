@@ -4,6 +4,10 @@ import {publicationMarkup} from './publication-template.mjs';
 import {emptyEditorialPost,localDateTime} from './publication-repository.mjs';
 import {CONNECTION_RESULTS,JOB_LABELS,captionCheck,isLocked,jobDetail} from './publication-schedule.mjs';
 import {normalizeContent,toUtc} from './publication-workflow.mjs';
+import {themeFor,renderSlide} from './brand-theme.mjs';
+import {config} from './config.mjs';
+import {createSvgSlides} from './svg-slides.mjs';
+import {importBank} from './svg-import.mjs';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const validSource=s=>{try{const u=new URL(s);return u.protocol==='https:'&&!u.username&&!u.password;}catch{return false;}};
 const labels={draft:'Rascunho',review:'Em revisão',planned:'Planejado · só no calendário',scheduled:JOB_LABELS.scheduled};
@@ -17,7 +21,7 @@ export function mountCloudPublication(root,{repository}){
  if(repository.local)root.querySelector('.coverage-notice span').textContent='Salvo neste navegador · faça backup dos textos e guarde as imagens';
  const $=id=>root.querySelector('#'+id);
  let alive=true,accounts=[],accountId='',rows=[],jobs=new Map(),current=null,slideIndex=0,view='overview',dirty=false,busy=false,epoch=0,uploaded=null;
- let outcomes=[],templates=[];
+ let outcomes=[],templates=[],paintId=0;
  const planner=mountPlanning(root,{getState:()=>({rows,jobs}),previewUrl:path=>repository.previewUrl(path),openPost:id=>guarded(async()=>{await flush();current=structuredClone(rows.find(p=>p.id===id));slideIndex=0;dirty=false;fill();changeView('studio');})()});
  let month=localDateTime(new Date().toISOString()).slice(0,7);
  const account=()=>accounts.find(a=>a.id===accountId);
@@ -27,21 +31,27 @@ export function mountCloudPublication(root,{repository}){
  // Posts imported from finished images (Canva, Drive): the slides are already in storage; nothing is drawn here.
  const external=()=>current?.content?.kind==='external'&&Array.isArray(current.origin?.assets);
  const previews=new Map();
+ const svg=createSvgSlides({repository,esc,onChange:()=>svgChanged(),templatesBase:config.templatesBase});
  const statusLabel=post=>{const job=jobFor(post);return job&&job.state!=='scheduled'?JOB_LABELS[job.state]:STAGES[planning(post).stage]||labels[post.status];};
  const metaResult=new URLSearchParams(location.search).get('meta'),metaDetail=new URLSearchParams(location.search).get('detalhe');
  if(metaResult)history.replaceState(null,'',location.pathname+location.hash);
  let resumable=metaResult==='sem-conta';
  $('slide-number').insertAdjacentHTML('afterend','<div class="slide-tools"><button id="add-slide" type="button" class="text-button">＋ Slide</button><button id="remove-slide" type="button" class="text-button">Remover slide</button></div>');
+ root.querySelector('.slide-fields').insertAdjacentHTML('afterend','<div id="svg-panel" class="svg-panel" hidden></div>');
+ root.querySelector('#import-images').closest('.actions').insertAdjacentHTML('beforeend',`<label class="toolbar-button upload" ${svg.enabled?'':'hidden'}>Importar pasta do banco (SVG)<input type="file" id="import-bank" webkitdirectory multiple hidden></label>`);
  const report=message=>{if(alive)$('notice').textContent=message;};
  function lock(value){busy=value;root.querySelectorAll('button,input,select,textarea').forEach(x=>x.disabled=value);if(!value)render();}
  async function busyStep(message,fn){lock(true);report(message);try{return await fn();}finally{if(alive)lock(false);}}
  function read(){
   if(!current)return;const c=current.content;c.title=$('title').value;c.caption=$('caption').value;
-  Object.assign(c.slides[slideIndex],{headline:$('headline').value,body:$('body').value,alt:$('alt').value});
+  // On an SVG slide the headline comes from the art itself; only the alt text is typed here.
+  if(svg.has(current,slideIndex))c.slides[slideIndex].alt=$('alt').value;
+  else Object.assign(c.slides[slideIndex],{headline:$('headline').value,body:$('body').value,alt:$('alt').value});
   const oldPlanning=planning(current);current.origin={...(current.origin||{}),planning:{...oldPlanning,stage:$('post-stage').value,campaign:$('post-campaign').value.trim(),owner:$('post-owner').value.trim(),date:$('post-date').value?toUtc($('post-date').value):null,sourceUrl:$('post-source').value.trim(),automationId:$('post-automation').value}};
   const previous=new Map(c.sources.map(s=>[s.url,s]));c.sources=$('source-urls').value.split('\n').map(s=>s.trim()).filter(Boolean).map(url=>previous.get(url)||{url,label:url});
  }
  function dirtyEdit(event){if(!current)return;if(planning(current).stage==='approved'&&['title','headline','body','alt','caption','source-urls'].includes(event?.target?.id))$('post-stage').value='review';read();dirty=true;current.status='draft';current.planned_at=null;render();}
+ function svgChanged(){if(!current)return;dirty=true;current.status='draft';current.planned_at=null;render();}
  function fill(){
   const c=current?.content,s=c?.slides[slideIndex];
   for(const [id,value] of Object.entries({title:c?.title,caption:c?.caption,headline:s?.headline,body:s?.body,alt:s?.alt,'source-urls':c?.sources.map(s=>s.url).join('\n')}))$(id).value=value||'';
@@ -76,9 +86,14 @@ export function mountCloudPublication(root,{repository}){
   for(const id of ['plan','review','save','export','jpeg','add-slide','remove-slide','schedule','test-publish'])$(id).disabled=!current;
   if(!current)return;
   const c=current.content,s=c.slides[slideIndex];$('draft-status').textContent=dirty?'Alterações por salvar':statusLabel(current);$('revision').textContent=current.revision?'Versão '+current.revision:'Ainda não salvo';
-  $('slide-preview').className='slide '+(slideIndex?'inner':'');
+  const svgSlide=svg.has(current,slideIndex),theme=themeFor(a,config.brandThemes),branded=Boolean(theme)&&!external()&&!svgSlide;
+  $('slide-preview').className='slide '+(svgSlide?'svg-slide':branded?'branded':slideIndex?'inner':'');
+  for(const field of [$('headline'),$('body')])field.closest('label').hidden=svgSlide;
   const photo='';
-  $('slide-preview').innerHTML=photo+`<div class="slide-main"><span class="kicker">${esc(a?.name.toUpperCase())} · PULSE</span><h2>${esc(s.headline||'Sua próxima manchete')}</h2><p>${esc(s.body)}</p>${slideIndex?`<span class="story-no">${slideIndex+1} / ${c.slides.length}</span>`:''}</div><div class="signature"><span class="personal-signature">${esc(a?.name)}</span></div>`;
+  svg.mount({preview:$('slide-preview'),panel:$('svg-panel'),post:current,index:slideIndex});
+  if(svgSlide){/* drawn by the SVG editor */}
+  else if(branded)paintBrand(theme,c);
+  else $('slide-preview').innerHTML=photo+`<div class="slide-main"><span class="kicker">${esc(a?.name.toUpperCase())} · PULSE</span><h2>${esc(s.headline||'Sua próxima manchete')}</h2><p>${esc(s.body)}</p>${slideIndex?`<span class="story-no">${slideIndex+1} / ${c.slides.length}</span>`:''}</div><div class="signature"><span class="personal-signature">${esc(a?.name)}</span></div>`;
   $('photo-note').textContent=photo?s.credit||'Confira o crédito antes de exportar.':s.image?'A imagem deste pacote ainda precisa ser incorporada aos arquivos finais.':'';
   if(external()){$('slide-preview').innerHTML=`<img class="external-image" alt="${esc(s.alt)}">`;previewExternal(slideIndex);$('photo-note').textContent=`Imagem ${slideIndex+1} de ${c.slides.length} importada de ${current.origin.label}. O Pulse publica as imagens prontas; o texto do slide não entra na arte.`;}
   $('slide-number').textContent=`SLIDE ${slideIndex+1} DE ${c.slides.length}`;$('word-count').textContent=(s.headline+' '+s.body).trim().split(/\s+/).filter(Boolean).length+' palavras';$('caption-count').textContent=c.caption.length+'/2.200';
@@ -98,6 +113,7 @@ export function mountCloudPublication(root,{repository}){
  }
  async function save(status='draft',plannedAt=null){
   if(!current)throw Error('Abra um rascunho primeiro.');read();
+  if(svg.enabled)await busyStep('Guardando as artes em SVG…',()=>svg.persist(current));
   if(planning(current).sourceUrl&&!safeLink(planning(current).sourceUrl))throw Error('Use um link HTTPS válido para a arte.');
   if(planning(current).stage==='approved')normalizeContent(current.content);
   if(current.content.sources.some(s=>!validSource(s.url)))throw Error('Revise as fontes: use URLs HTTPS sem credenciais.');
@@ -131,8 +147,20 @@ export function mountCloudPublication(root,{repository}){
  function calendar(){planner.render();}
  function shiftMonth(delta){planner.shift(delta);}
  function download(name,blob){const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),3000);}
+ // Preview and exported JPEG share the same drawing, so what the owner reviews is what goes to Instagram.
+ function paintBrand(theme,c){
+  const id=++paintId,root=$('slide-preview');root.innerHTML='<canvas class="brand-canvas"></canvas>';
+  renderSlide(root.firstChild,theme,c.slides[slideIndex],slideIndex,c.slides.length).catch(error=>{if(id===paintId)root.innerHTML=`<p class="brand-warning">${esc(error.message)}</p>`;});
+ }
  async function slideJpeg(index){
   const s=current.content.slides[index],a=account();if(!s.headline.trim())throw Error(`Preencha a headline do slide ${index+1}.`);
+  const theme=themeFor(a,config.brandThemes);
+  if(svg.has(current,index))return svg.toJpeg(current,index,{requiredText:theme?.requiredText,total:current.content.slides.length});
+  if(theme){
+   if(s.image)throw Error(`A imagem do slide ${index+1} ainda não está disponível. Importe as imagens finais pelo botão do Canva.`);
+   const branded=document.createElement('canvas');await renderSlide(branded,theme,s,index,current.content.slides.length);
+   const themed=await new Promise(resolve=>branded.toBlob(resolve,'image/jpeg',.94));if(!themed)throw Error('Falha ao gerar o JPEG.');return themed;
+  }
   await document.fonts.ready;await document.fonts.load('700 68px Inter');await document.fonts.load('400 45px Inter');
   const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1350;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,1080,1350);let y=100;
   const load=src=>new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>reject(Error('Não foi possível carregar a imagem.'));img.src=src;});
@@ -202,7 +230,7 @@ export function mountCloudPublication(root,{repository}){
  $('new').onclick=$('overview-new').onclick=guarded(async()=>{await flush();current=emptyEditorialPost(accountId);slideIndex=0;dirty=false;fill();changeView('studio');});
  $('previous').onclick=()=>move(slideIndex-1);$('next').onclick=()=>move(slideIndex+1);
  $('add-slide').onclick=()=>{read();current.content.slides.push({headline:'',body:'',alt:''});slideIndex=current.content.slides.length-1;dirty=true;current.status='draft';current.planned_at=null;fill();};
- $('remove-slide').onclick=()=>{read();current.content.slides.splice(slideIndex,1);slideIndex=Math.min(slideIndex,current.content.slides.length-1);dirty=true;current.status='draft';current.planned_at=null;fill();};
+ $('remove-slide').onclick=()=>{read();svg.removeAt(current,slideIndex);current.content.slides.splice(slideIndex,1);slideIndex=Math.min(slideIndex,current.content.slides.length-1);dirty=true;current.status='draft';current.planned_at=null;fill();};
  $('plan').onclick=guarded(async()=>{const local=$('plan-time').value;await save('planned',toUtc(local));month=local.slice(0,7);calendar();});
  $('schedule').onclick=guarded(schedulePublish);$('test-publish').onclick=guarded(testPublish);$('cancel-schedule').onclick=guarded(cancelSchedule);
  $('connect-instagram').onclick=guarded(connect);$('resume-instagram').onclick=guarded(resumeConnect);$('disconnect-instagram').onclick=guarded(disconnect);
@@ -212,6 +240,15 @@ export function mountCloudPublication(root,{repository}){
  $('import-images').onchange=guarded(async e=>{const files=[...e.target.files];e.target.value='';if(!files.length)return;await flush();const images=await busyStep('Preparando imagens na ordem dos arquivos…',()=>imageFilesToJpegs(files));current=emptyEditorialPost(accountId);current.content={...current.content,kind:'external',title:files[0].name.replace(/\.[^.]+$/,''),sources:[],slides:images.map((x,i)=>({headline:'Imagem '+(i+1),body:'',alt:x.name}))};const paths=await busyStep('Guardando imagens no Pulse…',()=>repository.uploadSlides(current,images.map(x=>x.blob)));current.origin={label:'Imagens importadas',provider:'upload',assets:paths.map((path,i)=>({path,name:images[i].name})),planning:{stage:'art'}};slideIndex=0;dirty=true;fill();changeView('studio');await save();report('Imagens importadas em ordem. Revise a legenda, as fontes e cada slide.');});
  $('export').onclick=guarded(()=>{read();download(`pulse-${account().account_key}-${current.id}.json`,new Blob([JSON.stringify({schemaVersion:1,mode:'draft',accountId:account().account_key,content:current.content,origin:current.origin,publicationAuthorized:false},null,2)],{type:'application/json'}));});
  $('jpeg').onclick=guarded(jpeg);
+ $('import-bank').onchange=guarded(async e=>{
+  const files=[...e.target.files];e.target.value='';if(!files.length)return;await flush();
+  const result=await busyStep('Lendo a pasta do banco de pautas…',()=>importBank({files,rows,repository,onProgress:report}));
+  const loaded=await load(accountId);rows=loaded.next;jobs=loaded.jobs;
+  const open=current&&rows.find(x=>x.id===current.id);if(open){current=structuredClone(open);dirty=false;}
+  fill();library();planner.render();
+  const skipped=result.skipped.length?` ${result.skipped.length} ignorada(s): ${result.skipped.slice(0,3).map(item=>`${item.id} (${item.reason})`).join('; ')}.`:'';
+  report(`${result.saved.length} pauta(s) importada(s) com as artes em SVG.${skipped}`);
+ });
  $('import').onchange=guarded(async e=>{const file=e.target.files[0];if(!file)return;if(file.size>150000)throw Error('Use um pacote de até 150 KB, com os textos e referências das imagens.');const payload=JSON.parse(await file.text());if(payload.accountId&&! [accountId,account().account_key].includes(payload.accountId))throw Error('Selecione a conta correspondente ao pacote.');const content=normalizeContent(payload.content);await flush();current={...emptyEditorialPost(accountId),content};slideIndex=0;dirty=true;fill();await save();e.target.value='';});
  const beforeUnload=e=>{if(dirty){e.preventDefault();e.returnValue='';}};window.addEventListener('beforeunload',beforeUnload);
  // While something is queued, the status follows the publisher without touching the editor.
